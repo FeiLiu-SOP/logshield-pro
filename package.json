@@ -1,0 +1,29 @@
+{
+  "name": "logshield-pro",
+  "version": "1.0.0",
+  "description": "High-performance MCP server for enterprise log sanitization",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "logshield-pro": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc && node dist/index.js",
+    "prepare": "npm run build"
+  },
+  "keywords": ["mcp", "log-sanitization", "security"],
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2"
+  }
+}
