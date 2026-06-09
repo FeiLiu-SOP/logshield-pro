@@ -11,11 +11,13 @@ High-performance MCP server for enterprise log sanitization. Masks IPv4/IPv6 add
 
 ## Purchase
 
-Get a professional license at [Logic Scale on Polar](https://polar.sh/logic-scale).
+**[Buy LogShield-Pro Professional License — $29](https://polar.sh/checkout/polar_c_2ot7iqjS40ojDgUTvEWn1cGTBrH8YPY7yXk2E3Zi1TQ)**
 
-## Quick Start (Cursor)
+After payment, copy your `LS-PRO-...` license key from the success page or email.
 
-### 1. Clone and build
+## Quick Start (Cursor) — 3 steps
+
+### Step 1: Install
 
 ```bash
 git clone https://github.com/FeiLiu-SOP/logshield-pro.git
@@ -24,35 +26,37 @@ npm install
 npm run build
 ```
 
-### 2. Configure MCP
+### Step 2: Configure MCP
 
-Add to your Cursor MCP settings (`mcp.json`):
+Open **Cursor → Settings → MCP → Edit Config**, paste and adjust the path:
 
 ```json
 {
   "mcpServers": {
     "logshield-pro": {
       "command": "node",
-      "args": ["/absolute/path/to/logshield-pro/dist/index.js"],
+      "args": ["C:/path/to/logshield-pro/dist/index.js"],
       "env": {
-        "LOGSHIELD_LICENSE_KEY": "your-key-from-polar",
-        "POLAR_ORGANIZATION_ID": "your-polar-organization-uuid"
+        "LOGSHIELD_LICENSE_KEY": "LS-PRO-paste-your-key-here"
       }
     }
   }
 }
 ```
 
-- `LOGSHIELD_LICENSE_KEY`: from your Polar purchase confirmation email or checkout success page
-- `POLAR_ORGANIZATION_ID`: find in Polar Dashboard → Settings
+> Windows tip: use forward slashes in the path, e.g. `E:/web3/mcp/tool-1/dist/index.js`
 
-Restart Cursor after saving.
+See [`cursor-mcp.example.json`](cursor-mcp.example.json) for a copy-paste template.
 
-### 3. Use
+**No license key?** Omit `LOGSHIELD_LICENSE_KEY` — free tier works with up to 3 masks per request.
 
-Ask the AI to sanitize logs, e.g.:
+### Step 3: Restart Cursor
+
+Toggle the MCP server off/on or restart Cursor. Ask the AI:
 
 > Sanitize this log with sanitize_logs
+
+Professional tier returns `"tier": "professional"` in the response.
 
 ## Tool: `sanitize_logs`
 
@@ -67,6 +71,14 @@ Ask the AI to sanitize logs, e.g.:
 | Email | `[MASKED_EMAIL]` |
 | Credit card | `[MASKED_CC]` |
 | API keys / high-entropy secrets | `[MASKED_SECRET]` |
+
+## Troubleshooting
+
+| Issue | Fix |
+|-------|-----|
+| Still on free tier with a valid key | Check internet; restart MCP; verify key starts with `LS-PRO-` |
+| MCP not connecting | Run `node dist/index.js` manually to check for errors |
+| Path errors on Windows | Use absolute path with `/` slashes in `args` |
 
 ## License
 

@@ -13,8 +13,12 @@
     "dev": "tsc && node dist/index.js",
     "prepare": "npm run build"
   },
-  "keywords": ["mcp", "log-sanitization", "security"],
+  "keywords": ["mcp", "log-sanitization", "security", "logshield", "pii"],
   "license": "UNLICENSED",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "engines": {
     "node": ">=18"
   },

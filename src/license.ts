@@ -1,3 +1,5 @@
+import { getPolarOrganizationId, PURCHASE_URL } from "./config.js";
+
 const CACHE_TTL_MS = 12 * 60 * 60 * 1000;
 const PRODUCTION_API_BASE = "https://api.polar.sh";
 const SANDBOX_API_BASE = "https://sandbox-api.polar.sh";
@@ -16,8 +18,7 @@ interface PolarValidateResponse {
 
 let cache: LicenseCache | null = null;
 
-export const FREE_TIER_MESSAGE =
-  "FREE TIER LIMIT REACHED. Purchase a professional license at https://logic-scale.com/buy to unlock full enterprise-grade sanitization.";
+export const FREE_TIER_MESSAGE = `FREE TIER LIMIT REACHED. Purchase a professional license at ${PURCHASE_URL} to unlock full enterprise-grade sanitization.`;
 
 function getApiBase(): string {
   const customBase = process.env.POLAR_API_BASE?.trim();
@@ -34,10 +35,10 @@ function getApiBase(): string {
 }
 
 async function validateWithPolar(key: string): Promise<boolean> {
-  const organizationId = process.env.POLAR_ORGANIZATION_ID?.trim();
+  const organizationId = getPolarOrganizationId();
   if (!organizationId) {
     console.error(
-      "LogShield-Pro: POLAR_ORGANIZATION_ID is not set; treating license as invalid."
+      "LogShield-Pro: Polar organization ID is not configured; treating license as invalid."
     );
     return false;
   }

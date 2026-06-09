@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "logshield-pro": {
+      "command": "node",
+      "args": ["REPLACE_WITH_PATH_TO/logshield-pro/dist/index.js"],
+      "env": {
+        "LOGSHIELD_LICENSE_KEY": "LS-PRO-paste-your-key-here"
+      }
+    }
+  }
+}
