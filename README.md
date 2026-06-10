@@ -1,12 +1,13 @@
 # LogShield-Pro
 
-High-performance MCP server for enterprise log sanitization. Masks IPv4/IPv6 addresses, emails, credit cards, and API keys (AWS / Stripe / OpenAI) using regex and entropy detection.
+High-performance local log sanitization for developers. Masks IPv4/IPv6 addresses, emails, credit cards, and API keys (AWS / Stripe / OpenAI) using regex and entropy detection.
 
 ## Features
 
+- **CLI (recommended)**: sanitize locally **before** pasting into AI chat — raw logs never enter Cursor
+- **MCP (optional)**: sanitize from inside Cursor chat via the `sanitize_logs` tool
 - **Free tier**: masks up to 3 sensitive items per request
 - **Professional tier**: full sanitization with a valid Polar license key
-- **Local processing**: logs never leave your machine
 - **Polar license validation**: online verification with 12-hour cache
 
 ## Purchase
@@ -15,20 +16,72 @@ High-performance MCP server for enterprise log sanitization. Masks IPv4/IPv6 add
 
 After payment, copy your `LS-PRO-...` license key from the success page or email.
 
-## Quick Start (Cursor) — 3 steps
+---
 
-### Step 1: Install
+## Recommended: CLI (privacy-first)
+
+Sanitize on your machine first, then paste the clean log into Cursor.
+
+### Install
 
 ```bash
 git clone https://github.com/FeiLiu-SOP/logshield-pro.git
 cd logshield-pro
 npm install
 npm run build
+npm link
 ```
 
-### Step 2: Configure MCP
+### Clipboard workflow (best for Cursor)
 
-Open **Cursor → Settings → MCP → Edit Config**, paste and adjust the path:
+```bash
+# 1. Copy raw log to clipboard
+# 2. Run:
+logshield sanitize --clipboard
+
+# 3. Paste into Cursor — only sanitized text is shared with AI
+```
+
+### Other CLI usage
+
+```bash
+# Sanitize a file
+logshield sanitize app.log
+
+# Pipe from stdin
+type app.log | logshield sanitize
+
+# JSON output with stats
+logshield sanitize app.log --json
+
+# Professional tier (optional)
+set LOGSHIELD_LICENSE_KEY=LS-PRO-your-key-here
+logshield sanitize --clipboard
+```
+
+### Example
+
+**Before:**
+```
+ERROR user=admin@corp.io from 192.168.1.42
+AWS: AKIAIOSFODNN7EXAMPLE
+```
+
+**After (`logshield sanitize`):**
+```
+ERROR user=[MASKED_EMAIL] from [MASKED_IP]
+AWS: [MASKED_SECRET]
+```
+
+---
+
+## Optional: MCP (Cursor chat)
+
+Use MCP when you want in-chat sanitization. Note: unsanitized text enters the chat before the tool runs. For privacy, prefer the CLI above.
+
+### Configure MCP
+
+Open **Cursor → Settings → Tools & MCP**, or edit `%USERPROFILE%\.cursor\mcp.json`:
 
 ```json
 {
@@ -44,24 +97,18 @@ Open **Cursor → Settings → MCP → Edit Config**, paste and adjust the path:
 }
 ```
 
-> Windows tip: use forward slashes in the path, e.g. `E:/web3/mcp/tool-1/dist/index.js`
+Ask the AI: *"Sanitize this log with sanitize_logs"*
 
-See [`cursor-mcp.example.json`](cursor-mcp.example.json) for a copy-paste template.
+See [`cursor-mcp.example.json`](cursor-mcp.example.json).
 
-**No license key?** Omit `LOGSHIELD_LICENSE_KEY` — free tier works with up to 3 masks per request.
+---
 
-### Step 3: Restart Cursor
+## Tool reference
 
-Toggle the MCP server off/on or restart Cursor. Ask the AI:
-
-> Sanitize this log with sanitize_logs
-
-Professional tier returns `"tier": "professional"` in the response.
-
-## Tool: `sanitize_logs`
-
-| Input | `raw_log` — raw log string |
-| Output | JSON with `sanitized_log`, `masked_count`, `total_detected`, `tier` |
+| CLI | `logshield sanitize [file]` |
+| MCP tool | `sanitize_logs` |
+| Input | raw log string |
+| Output | sanitized text + `masked_count` / `total_detected` / `tier` |
 
 ## Placeholders
 
@@ -71,14 +118,6 @@ Professional tier returns `"tier": "professional"` in the response.
 | Email | `[MASKED_EMAIL]` |
 | Credit card | `[MASKED_CC]` |
 | API keys / high-entropy secrets | `[MASKED_SECRET]` |
-
-## Troubleshooting
-
-| Issue | Fix |
-|-------|-----|
-| Still on free tier with a valid key | Check internet; restart MCP; verify key starts with `LS-PRO-` |
-| MCP not connecting | Run `node dist/index.js` manually to check for errors |
-| Path errors on Windows | Use absolute path with `/` slashes in `args` |
 
 ## License
 

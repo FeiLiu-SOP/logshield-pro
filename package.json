@@ -5,6 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "bin": {
+    "logshield": "dist/cli.js",
     "logshield-pro": "dist/index.js"
   },
   "scripts": {
