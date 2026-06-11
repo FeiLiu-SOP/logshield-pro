@@ -12,9 +12,30 @@ High-performance local log sanitization for developers. Masks IPv4/IPv6 addresse
 
 ## Purchase
 
-**[Buy LogShield-Pro Professional License — $29](https://polar.sh/checkout/polar_c_2ot7iqjS40ojDgUTvEWn1cGTBrH8YPY7yXk2E3Zi1TQ)**
+**[Buy LogShield-Pro Professional License — $29](https://polar.sh/checkout/polar_c_bVdkdrbYFjLF6lHHSoBcVaCYbf7XwQhdq7avzs0hh2D9)**
 
 After payment, copy your `LS-PRO-...` license key from the success page or email.
+
+## After purchase (customers)
+
+1. **Copy** your `LS-PRO-...` license key from the Polar success page
+2. **Install** from GitHub:
+   ```bash
+   git clone https://github.com/FeiLiu-SOP/logshield-pro.git
+   cd logshield-pro
+   npm install && npm run build && npm link
+   ```
+3. **Set key** (Windows PowerShell):
+   ```powershell
+   $env:LOGSHIELD_LICENSE_KEY = "LS-PRO-your-key-here"
+   ```
+4. **Sanitize** (recommended — raw logs never enter Cursor chat):
+   ```bash
+   logshield sanitize --clipboard
+   ```
+5. **Paste** the sanitized log into Cursor and ask AI to analyze
+
+Support: f.liu.tech.arch@gmail.com
 
 ---
 

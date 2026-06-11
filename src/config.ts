@@ -14,4 +14,4 @@ export function getPolarOrganizationId(): string {
 
 /** Polar checkout link for LogShield-Pro Professional License */
 export const PURCHASE_URL =
-  "https://polar.sh/checkout/polar_c_2ot7iqjS40ojDgUTvEWn1cGTBrH8YPY7yXk2E3Zi1TQ";
+  "https://polar.sh/checkout/polar_c_bVdkdrbYFjLF6lHHSoBcVaCYbf7XwQhdq7avzs0hh2D9";
